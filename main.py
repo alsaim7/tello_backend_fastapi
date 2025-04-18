@@ -20,7 +20,7 @@ app.include_router(authentication.router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://mytello.netlify.app"],  # yaha specific frontend url bhi de sakta hai like ["http://localhost:5173"]
+    allow_origins=["https://mytello.netlify.app","http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
