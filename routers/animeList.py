@@ -13,12 +13,12 @@ router= APIRouter(
     tags=["Anime"]
 )
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model= List[schema.animeSchemaShow])
+@router.get('', status_code=status.HTTP_200_OK, response_model= List[schema.animeSchemaShow])
 def get_a_list_of_anime(db: Session = Depends(database.get_session)):
     return controllers.animeList.get_all_anime(db)
 
 
-@router.post('/', status_code= status.HTTP_201_CREATED)
+@router.post('', status_code= status.HTTP_201_CREATED)
 def create_anime(req:schema.animeSchema,db: Session = Depends(database.get_session), current_user: model.User = Depends(oauth2.get_current_user)):
     return controllers.animeList.create_new_anime(req,db, current_user)
 
