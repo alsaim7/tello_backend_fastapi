@@ -9,7 +9,7 @@ import model
 import oauth2
 
 router= APIRouter(
-    prefix='tello',
+    prefix='/tello',
     tags=["Anime"]
 )
 
