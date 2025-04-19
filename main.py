@@ -5,6 +5,7 @@ from routers import animeList
 from fastapi.middleware.cors import CORSMiddleware
 from routers import user
 from routers import authentication
+from routers import healthcheck
 
 app= FastAPI()
 
@@ -14,6 +15,7 @@ def create_db_and_tables():
 
 create_db_and_tables()
 
+app.include_router(healthcheck.router)
 app.include_router(animeList.router)
 app.include_router(user.router)
 app.include_router(authentication.router)
