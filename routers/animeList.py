@@ -23,7 +23,7 @@ def create_anime(req:schema.animeSchema,db: Session = Depends(database.get_sessi
     return controllers.animeList.create_new_anime(req,db, current_user)
 
 
-@router.get('/q', status_code= status.HTTP_200_OK)
+@router.get('/q', status_code= status.HTTP_200_OK, response_model= List[schema.animeSchemaShow])
 def search_story(search:str, db: Session = Depends(database.get_session)):
     return controllers.animeList.search_story(search, db)
     
