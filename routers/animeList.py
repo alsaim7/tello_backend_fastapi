@@ -23,6 +23,12 @@ def create_anime(req:schema.animeSchema,db: Session = Depends(database.get_sessi
     return controllers.animeList.create_new_anime(req,db, current_user)
 
 
+@router.get('/q', status_code= status.HTTP_200_OK)
+def search_story(search:str, db: Session = Depends(database.get_session)):
+    return controllers.animeList.search_story(search, db)
+    
+
+
 @router.get('/{id}', response_model= schema.animeSchemaShow)
 def get_anime_by_id(id:int, db: Session = Depends(database.get_session)):
     return controllers.animeList.get_anime_by_id(id,db)
@@ -36,4 +42,3 @@ def delete_anime(id:int, db: Session = Depends(database.get_session), current_us
 @router.patch('/{id}', status_code=status.HTTP_200_OK)
 def update_anime(id:int, req:schema.animeSchema, db: Session = Depends(database.get_session), current_user: model.User = Depends(oauth2.get_current_user)):
     return controllers.animeList.update_an_anime(id, req, db, current_user)
-    

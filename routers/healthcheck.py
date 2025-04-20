@@ -1,10 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from sqlalchemy import text
 import database
 
-router = APIRouter()
+router = APIRouter(
+    tags=["HealthCheck"]
+)
 
-@router.get("/healthcheck")
+@router.get("/healthcheck", status_code=status.HTTP_200_OK)
 def health_check():
     try:
         with database.Session(database.engine) as session:
