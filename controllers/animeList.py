@@ -35,6 +35,8 @@ def search_story(search, db):
         )
 
     results = db.query(model.Anime).join(model.User).filter(or_(*filters)).all()
+    if not results:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f"Search result not found for, {search}")
     return results
 
 
