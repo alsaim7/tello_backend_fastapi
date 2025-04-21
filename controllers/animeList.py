@@ -22,14 +22,19 @@ def create_new_anime(req, db, current_user):
 
 
 def search_story(search, db):
-    results = db.query(model.Anime).join(model.User).filter(
-    or_(
-        model.Anime.anime_name.ilike(f"%{search}%"),
-        model.User.username.ilike(f"%{search}%")
-    )
-    ).all()
-    if not results:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'No search result found for [{search}]')
+    # Split query into words
+    words = search.lower().split()
+    filters = []
+
+    for word in words:
+        filters.append(
+            or_(
+                func.lower(model.Anime.anime_name).contains(word),
+                func.lower(model.User.username).contains(word)
+            )
+        )
+
+    results = db.query(model.Anime).join(model.User).filter(or_(*filters)).all()
     return results
 
 
