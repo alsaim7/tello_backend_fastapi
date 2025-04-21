@@ -1,5 +1,5 @@
 import model
-from sqlmodel import select, func
+from sqlmodel import select, func,or_
 from fastapi import HTTPException, status
 
 def get_all_anime(db):
@@ -22,10 +22,15 @@ def create_new_anime(req, db, current_user):
 
 
 def search_story(search, db):
-    story= db.exec(select(model.Anime).where(func.lower(model.Anime.anime_name).like(f"%{search.lower()}%"))).all()
-    if not story:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='No search result found')
-    return story
+    results = db.query(model.Anime).join(model.User).filter(
+    or_(
+        model.Anime.anime_name.ilike(f"%{search}%"),
+        model.User.username.ilike(f"%{search}%")
+    )
+    ).all()
+    if not results:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'No search result found for [{search}]')
+    return results
 
 
 
