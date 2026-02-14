@@ -9,7 +9,7 @@ from routers import healthcheck
 
 app= FastAPI()
 
-# Create tables
+# Create tables test
 def create_db_and_tables():
     model.SQLModel.metadata.create_all(database.engine)
 
